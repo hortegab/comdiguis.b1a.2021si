@@ -183,7 +183,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: '4'
+    value: 8*8
   states:
     bus_sink: false
     bus_source: false
@@ -195,8 +195,7 @@ blocks:
   id: variable
   parameters:
     comment: ''
-    value: (np.exp(1j*p[0]), np.exp(1j*p[1]), np.exp(1j*p[2]), np.exp(1j*p[3]), np.exp(1j*p[4]),
-      np.exp(1j*p[5]), np.exp(1j*p[6]), np.exp(1j*p[7]))
+    value: (0.5,1)
   states:
     bus_sink: false
     bus_source: false
@@ -467,7 +466,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [236, 205]
+    coordinate: [236, 201]
     rotation: 0
     state: true
 - name: b_u_de_M_PAM_bb_0
@@ -685,7 +684,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: h2
+    taps: h0
     type: ccf
   states:
     bus_sink: false
@@ -704,7 +703,7 @@ blocks:
     maxoutbuf: '0'
     minoutbuf: '0'
     samp_delay: '0'
-    taps: h2
+    taps: h0
     type: ccf
   states:
     bus_sink: false

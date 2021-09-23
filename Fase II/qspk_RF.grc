@@ -41,7 +41,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [545, 3]
+    coordinate: [446, 5]
     rotation: 0
     state: enabled
 - name: Dtiming
@@ -261,18 +261,6 @@ blocks:
     bus_source: false
     bus_structure: null
     coordinate: [337, 5]
-    rotation: 0
-    state: enabled
-- name: samp_rate_dac
-  id: variable
-  parameters:
-    comment: ''
-    value: samp_rate*32
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [426, 3]
     rotation: 0
     state: enabled
 - name: Menu

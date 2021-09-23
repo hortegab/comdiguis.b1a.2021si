@@ -37,7 +37,6 @@ from b_u_de_M_PAM_bb import b_u_de_M_PAM_bb  # grc-generated hier_block
 from b_upconverter_cf import b_upconverter_cf  # grc-generated hier_block
 from gnuradio import analog
 from gnuradio import blocks
-import numpy
 from gnuradio import digital
 from gnuradio import filter
 from gnuradio import gr
@@ -50,7 +49,6 @@ from gnuradio.qtgui import Range, RangeWidget
 from PyQt5 import QtCore
 import math
 import mis_funciones  # embedded python module
-import numpy as np
 
 
 
@@ -92,25 +90,21 @@ class sistemabase(gr.top_block, Qt.QWidget):
         ##################################################
         # Variables
         ##################################################
-        self.p = p = np.array([5*math.pi/4,4*math.pi/4,2*math.pi/4,3*math.pi/4,6*math.pi/4,7*math.pi/4,1*math.pi/4,0*math.pi/4])
-        self.TablaVerdad = TablaVerdad = (np.exp(1j*p[0]), np.exp(1j*p[1]), np.exp(1j*p[2]), np.exp(1j*p[3]), np.exp(1j*p[4]), np.exp(1j*p[5]), np.exp(1j*p[6]), np.exp(1j*p[7]))
-        self.B = B = 200e3
-        self.samp_rate = samp_rate = B
-        self.Sps = Sps = 4
-        self.Nlob_n = Nlob_n = 6
+        self.TablaVerdad = TablaVerdad = (-1-1j, -1+1j, 1-1j, 1+1j)
         self.M = M = len(TablaVerdad)
-        self.ntaps = ntaps = Nlob_n*Sps
         self.bps = bps = math.log(M,2)
-        self.alpha = alpha = 0.3
-        self.Rs = Rs = samp_rate/Sps
-        self.samp_rate_dac = samp_rate_dac = samp_rate*32
+        self.Rb = Rb = 32000
+        self.Sps = Sps = 8*8
+        self.Rs = Rs = Rb/bps
+        self.Nlob_n = Nlob_n = 6
+        self.samp_rate = samp_rate = Rs*Sps
+        self.ntaps = ntaps = Nlob_n*Sps
+        self.alpha = alpha = 0.5
         self.h2 = h2 = mis_funciones.rrcos(Sps,ntaps,alpha)
         self.h1 = h1 = mis_funciones.rcos(Sps,ntaps,alpha)
         self.h0 = h0 = ([1]*Sps)
         self.Retardo_sym = Retardo_sym = 0
-        self.Rb = Rb = Rs*bps
         self.Noise = Noise = 0.2
-        self.Fc = Fc = 40e6
         self.Dtiming = Dtiming = Sps-1
         self.BW = BW = samp_rate/2
 
@@ -338,52 +332,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
             self.Menu_grid_layout_0.setRowStretch(r, 1)
         for c in range(0, 1):
             self.Menu_grid_layout_0.setColumnStretch(c, 1)
-        self.qtgui_freq_sink_x_0 = qtgui.freq_sink_c(
-            1024, #size
-            window.WIN_BLACKMAN_hARRIS, #wintype
-            Fc, #fc
-            samp_rate, #bw
-            "Espectro en dB", #name
-            2,
-            None # parent
-        )
-        self.qtgui_freq_sink_x_0.set_update_time(0.10)
-        self.qtgui_freq_sink_x_0.set_y_axis(-140, 10)
-        self.qtgui_freq_sink_x_0.set_y_label('Relative Gain', 'dB')
-        self.qtgui_freq_sink_x_0.set_trigger_mode(qtgui.TRIG_MODE_FREE, 0.0, 0, "")
-        self.qtgui_freq_sink_x_0.enable_autoscale(False)
-        self.qtgui_freq_sink_x_0.enable_grid(False)
-        self.qtgui_freq_sink_x_0.set_fft_average(0.05)
-        self.qtgui_freq_sink_x_0.enable_axis_labels(True)
-        self.qtgui_freq_sink_x_0.enable_control_panel(False)
-        self.qtgui_freq_sink_x_0.set_fft_window_normalized(False)
-
-
-
-        labels = ['T2', 'R2', '', '', '',
-            '', '', '', '', '']
-        widths = [3, 3, 1, 1, 1,
-            1, 1, 1, 1, 1]
-        colors = ["blue", "red", "green", "black", "cyan",
-            "magenta", "yellow", "dark red", "dark green", "dark blue"]
-        alphas = [1.0, 1.0, 1.0, 1.0, 1.0,
-            1.0, 1.0, 1.0, 1.0, 1.0]
-
-        for i in range(2):
-            if len(labels[i]) == 0:
-                self.qtgui_freq_sink_x_0.set_line_label(i, "Data {0}".format(i))
-            else:
-                self.qtgui_freq_sink_x_0.set_line_label(i, labels[i])
-            self.qtgui_freq_sink_x_0.set_line_width(i, widths[i])
-            self.qtgui_freq_sink_x_0.set_line_color(i, colors[i])
-            self.qtgui_freq_sink_x_0.set_line_alpha(i, alphas[i])
-
-        self._qtgui_freq_sink_x_0_win = sip.wrapinstance(self.qtgui_freq_sink_x_0.pyqwidget(), Qt.QWidget)
-        self.Menu_grid_layout_1.addWidget(self._qtgui_freq_sink_x_0_win, 1, 0, 1, 1)
-        for r in range(1, 2):
-            self.Menu_grid_layout_1.setRowStretch(r, 1)
-        for c in range(0, 1):
-            self.Menu_grid_layout_1.setColumnStretch(c, 1)
         self.qtgui_eye_sink_x_0 = qtgui.eye_sink_c(
             1024, #size
             samp_rate, #samp_rate
@@ -668,6 +616,7 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.interp_fir_filter_xxx_0 = filter.interp_fir_filter_ccf(Sps, h0)
         self.interp_fir_filter_xxx_0.declare_sample_delay(0)
         self.digital_chunks_to_symbols_xx_0 = digital.chunks_to_symbols_bc(TablaVerdad, 1)
+        self.blocks_vector_source_x_0 = blocks.vector_source_b((1,0,1,0,1,0,0,0,1,0,1,0,1,1,1,0,0,0), True, 1, [])
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_char*1)
         self.blocks_multiply_const_vxx_0 = blocks.multiply_const_cc(1/Sps)
         self.blocks_delay_0 = blocks.delay(gr.sizeof_float*1, Retardo_sym)
@@ -679,10 +628,10 @@ class sistemabase(gr.top_block, Qt.QWidget):
             samp_rate=samp_rate,
         )
         self.b_u_de_M_PAM_bb_0 = b_u_de_M_PAM_bb(
-            M=M,
+            M=4,
         )
         self.b_u_M_PAM_bb_0 = b_u_M_PAM_bb(
-            M=M,
+            M=4,
         )
         self.b_diez_cc_0 = b_diez_cc(
             N=Sps,
@@ -708,7 +657,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
             self.Menu_grid_layout_4.setRowStretch(r, 1)
         for c in range(0, 1):
             self.Menu_grid_layout_4.setColumnStretch(c, 1)
-        self.analog_random_source_x_0 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, 2, 1000000))), True)
         self.analog_noise_source_x_0 = analog.noise_source_c(analog.GR_GAUSSIAN, Noise, 0)
 
 
@@ -718,7 +666,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_noise_source_x_0, 0), (self.blocks_add_xx_0, 0))
         self.connect((self.analog_noise_source_x_0, 0), (self.qtgui_const_sink_x_0_1_0, 0))
-        self.connect((self.analog_random_source_x_0, 0), (self.b_u_M_PAM_bb_0, 0))
         self.connect((self.b_demod_constelacion_cb_0, 0), (self.b_u_de_M_PAM_bb_0, 0))
         self.connect((self.b_demod_constelacion_cb_0, 0), (self.blocks_char_to_float_0_0, 0))
         self.connect((self.b_diez_cc_0, 0), (self.b_demod_constelacion_cb_0, 0))
@@ -730,7 +677,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_add_xx_0, 0), (self.interp_fir_filter_xxx_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_const_sink_x_0_0, 0))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_eye_sink_x_0, 0))
-        self.connect((self.blocks_add_xx_0, 0), (self.qtgui_freq_sink_x_0, 1))
         self.connect((self.blocks_add_xx_0, 0), (self.qtgui_time_sink_x_0_0, 1))
         self.connect((self.blocks_char_to_float_0, 0), (self.blocks_delay_0, 0))
         self.connect((self.blocks_char_to_float_0_0, 0), (self.qtgui_time_sink_x_0, 1))
@@ -739,11 +685,11 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.b_diez_cc_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_const_sink_x_0, 0))
         self.connect((self.blocks_multiply_const_vxx_0, 0), (self.qtgui_eye_sink_x_0, 1))
+        self.connect((self.blocks_vector_source_x_0, 0), (self.b_u_M_PAM_bb_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.interp_fir_filter_xxx_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_0, 0), (self.qtgui_const_sink_x_0_0_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.b_upconverter_cf_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.blocks_add_xx_0, 1))
-        self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_freq_sink_x_0, 0))
         self.connect((self.interp_fir_filter_xxx_0, 0), (self.qtgui_time_sink_x_0_0, 0))
         self.connect((self.interp_fir_filter_xxx_0_0, 0), (self.blocks_multiply_const_vxx_0, 0))
 
@@ -756,13 +702,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
 
         event.accept()
 
-    def get_p(self):
-        return self.p
-
-    def set_p(self, p):
-        self.p = p
-        self.set_TablaVerdad((np.exp(1j*self.p[0]), np.exp(1j*self.p[1]), np.exp(1j*self.p[2]), np.exp(1j*self.p[3]), np.exp(1j*self.p[4]), np.exp(1j*self.p[5]), np.exp(1j*self.p[6]), np.exp(1j*self.p[7])))
-
     def get_TablaVerdad(self):
         return self.TablaVerdad
 
@@ -772,27 +711,26 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.b_demod_constelacion_cb_0.set_Constelacion(self.TablaVerdad)
         self.digital_chunks_to_symbols_xx_0.set_symbol_table(self.TablaVerdad)
 
-    def get_B(self):
-        return self.B
+    def get_M(self):
+        return self.M
 
-    def set_B(self, B):
-        self.B = B
-        self.set_samp_rate(self.B)
+    def set_M(self, M):
+        self.M = M
+        self.set_bps(math.log(self.M,2))
 
-    def get_samp_rate(self):
-        return self.samp_rate
+    def get_bps(self):
+        return self.bps
 
-    def set_samp_rate(self, samp_rate):
-        self.samp_rate = samp_rate
-        self.set_BW(self.samp_rate/2)
-        self.set_Rs(self.samp_rate/self.Sps)
-        self.set_samp_rate_dac(self.samp_rate*32)
-        self.b_Eye_Timing_c_0.set_Samprate(self.samp_rate)
-        self.b_upconverter_cf_0.set_samp_rate(self.samp_rate)
-        self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
-        self.qtgui_freq_sink_x_0.set_frequency_range(self.Fc, self.samp_rate)
-        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
-        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
+    def set_bps(self, bps):
+        self.bps = bps
+        self.set_Rs(self.Rb/self.bps)
+
+    def get_Rb(self):
+        return self.Rb
+
+    def set_Rb(self, Rb):
+        self.Rb = Rb
+        self.set_Rs(self.Rb/self.bps)
 
     def get_Sps(self):
         return self.Sps
@@ -800,16 +738,25 @@ class sistemabase(gr.top_block, Qt.QWidget):
     def set_Sps(self, Sps):
         self.Sps = Sps
         self.set_Dtiming(self.Sps-1)
-        self.set_Rs(self.samp_rate/self.Sps)
         self.set_h0(([1]*self.Sps))
         self.set_h1(mis_funciones.rcos(self.Sps,self.ntaps,self.alpha))
         self.set_h2(mis_funciones.rrcos(self.Sps,self.ntaps,self.alpha))
         self.set_ntaps(self.Nlob_n*self.Sps)
+        self.set_samp_rate(self.Rs*self.Sps)
         self.b_Eye_Timing_c_0.set_Sps(self.Sps)
         self.b_diez_cc_0.set_N(self.Sps)
         self.b_diez_cc_0.set_M(self.Sps-self.Dtiming)
         self.blocks_multiply_const_vxx_0.set_k(1/self.Sps)
         self.qtgui_eye_sink_x_0.set_samp_per_symbol(self.Sps)
+
+    def get_Rs(self):
+        return self.Rs
+
+    def set_Rs(self, Rs):
+        self.Rs = Rs
+        self.set_samp_rate(self.Rs*self.Sps)
+        self.b_upconverter_cf_0.set_Fc(2*self.Rs)
+        self.qtgui_time_sink_x_0.set_samp_rate(self.Rs)
 
     def get_Nlob_n(self):
         return self.Nlob_n
@@ -818,14 +765,17 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.Nlob_n = Nlob_n
         self.set_ntaps(self.Nlob_n*self.Sps)
 
-    def get_M(self):
-        return self.M
+    def get_samp_rate(self):
+        return self.samp_rate
 
-    def set_M(self, M):
-        self.M = M
-        self.set_bps(math.log(self.M,2))
-        self.b_u_M_PAM_bb_0.set_M(self.M)
-        self.b_u_de_M_PAM_bb_0.set_M(self.M)
+    def set_samp_rate(self, samp_rate):
+        self.samp_rate = samp_rate
+        self.set_BW(self.samp_rate/2)
+        self.b_Eye_Timing_c_0.set_Samprate(self.samp_rate)
+        self.b_upconverter_cf_0.set_samp_rate(self.samp_rate)
+        self.qtgui_eye_sink_x_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_0_0.set_samp_rate(self.samp_rate)
+        self.qtgui_time_sink_x_1.set_samp_rate(self.samp_rate)
 
     def get_ntaps(self):
         return self.ntaps
@@ -835,13 +785,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.set_h1(mis_funciones.rcos(self.Sps,self.ntaps,self.alpha))
         self.set_h2(mis_funciones.rrcos(self.Sps,self.ntaps,self.alpha))
 
-    def get_bps(self):
-        return self.bps
-
-    def set_bps(self, bps):
-        self.bps = bps
-        self.set_Rb(self.Rs*self.bps)
-
     def get_alpha(self):
         return self.alpha
 
@@ -849,21 +792,6 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.alpha = alpha
         self.set_h1(mis_funciones.rcos(self.Sps,self.ntaps,self.alpha))
         self.set_h2(mis_funciones.rrcos(self.Sps,self.ntaps,self.alpha))
-
-    def get_Rs(self):
-        return self.Rs
-
-    def set_Rs(self, Rs):
-        self.Rs = Rs
-        self.set_Rb(self.Rs*self.bps)
-        self.b_upconverter_cf_0.set_Fc(2*self.Rs)
-        self.qtgui_time_sink_x_0.set_samp_rate(self.Rs)
-
-    def get_samp_rate_dac(self):
-        return self.samp_rate_dac
-
-    def set_samp_rate_dac(self, samp_rate_dac):
-        self.samp_rate_dac = samp_rate_dac
 
     def get_h2(self):
         return self.h2
@@ -892,25 +820,12 @@ class sistemabase(gr.top_block, Qt.QWidget):
         self.Retardo_sym = Retardo_sym
         self.blocks_delay_0.set_dly(self.Retardo_sym)
 
-    def get_Rb(self):
-        return self.Rb
-
-    def set_Rb(self, Rb):
-        self.Rb = Rb
-
     def get_Noise(self):
         return self.Noise
 
     def set_Noise(self, Noise):
         self.Noise = Noise
         self.analog_noise_source_x_0.set_amplitude(self.Noise)
-
-    def get_Fc(self):
-        return self.Fc
-
-    def set_Fc(self, Fc):
-        self.Fc = Fc
-        self.qtgui_freq_sink_x_0.set_frequency_range(self.Fc, self.samp_rate)
 
     def get_Dtiming(self):
         return self.Dtiming

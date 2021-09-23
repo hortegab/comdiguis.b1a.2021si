@@ -41,7 +41,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [545, 3]
+    coordinate: [499, 3]
     rotation: 0
     state: enabled
 - name: Dtiming
@@ -98,7 +98,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [632, 2]
+    coordinate: [618, 7]
     rotation: 0
     state: enabled
 - name: Noise
@@ -301,18 +301,6 @@ blocks:
     coordinate: [337, 5]
     rotation: 0
     state: enabled
-- name: samp_rate_dac
-  id: variable
-  parameters:
-    comment: ''
-    value: samp_rate*32
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [426, 3]
-    rotation: 0
-    state: enabled
 - name: Menu
   id: qtgui_tab_widget
   parameters:
@@ -363,7 +351,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1019, 95]
+    coordinate: [1040, 146]
     rotation: 0
     state: true
 - name: analog_random_source_x_0
