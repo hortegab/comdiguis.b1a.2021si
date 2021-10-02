@@ -22,20 +22,16 @@ if __name__ == '__main__':
         except:
             print("Warning: failed to XInitThreads()")
 
-import os
-import sys
-sys.path.append(os.environ.get('GRC_HIER_PATH', os.path.expanduser('~/.grc_gnuradio')))
-
 from PyQt5 import Qt
 from gnuradio import qtgui
 import sip
-from b_demod_constelacion_cb import b_demod_constelacion_cb  # grc-generated hier_block
 from gnuradio import blocks
 import numpy
 from gnuradio import digital
 from gnuradio import gr
 from gnuradio.filter import firdes
 from gnuradio.fft import window
+import sys
 import signal
 from argparse import ArgumentParser
 from gnuradio.eng_arg import eng_float, intx
@@ -86,13 +82,15 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         # Variables
         ##################################################
         self.const0 = const0 = digital.constellation_bpsk().points()
-        self.samp_rate = samp_rate = 100e3
-        self.Sps = Sps = 1
         self.M0 = M0 = len(const0)
-        self.run_stop = run_stop = True
+        self.samp_rate = samp_rate = 100e3
         self.mapa = mapa = np.arange(M0)
+        self.Sps = Sps = 1
+        self.run_stop = run_stop = True
         self.Rs = Rs = samp_rate/Sps
         self.N_snr = N_snr = 32
+        self.MiconstellationObject0 = MiconstellationObject0 = digital.constellation_calcdist(const0, mapa,
+        4, 1, digital.constellation.AMPLITUDE_NORMALIZATION).base()
         self.MaxErrors = MaxErrors = 1000
         self.MaxCount = MaxCount = int(1e7)
         self.EsN0min = EsN0min = -5
@@ -130,7 +128,7 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         self.qtgui_vector_sink_f_0.set_y_axis_units("")
         self.qtgui_vector_sink_f_0.set_ref_level(0)
 
-        labels = ["QPSK", "QPSK", '8PSK', "16QAM", '',
+        labels = ["BPSK", "QPSK", '8PSK', "16QAM", '',
             '', '', '', '', '']
         widths = [4, 4, 4, 4, 1,
             1, 1, 1, 1, 1]
@@ -156,6 +154,7 @@ class ser_simulation(gr.top_block, Qt.QWidget):
             self.top_grid_layout.setColumnStretch(c, 1)
         self.epy_block_1 = epy_block_1.blk(N=32)
         self.epy_block_0 = epy_block_0.blk(N=N_snr, EsN0min=EsN0min, EsN0max=EsN0max, Sps=Sps, Rs=Rs)
+        self.digital_constellation_decoder_cb_0_0_0 = digital.constellation_decoder_cb(MiconstellationObject0)
         self.digital_chunks_to_symbols_xx_1 = digital.chunks_to_symbols_bc(const0, 1)
         self.blocks_vector_to_stream_0 = blocks.vector_to_stream(gr.sizeof_gr_complex*1, N_snr)
         self.blocks_stream_to_vector_0_1_0 = blocks.stream_to_vector(gr.sizeof_char*1, N_snr)
@@ -163,9 +162,6 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         self.blocks_stream_to_vector_0 = blocks.stream_to_vector(gr.sizeof_gr_complex*1, N_snr)
         self.blocks_null_sink_0 = blocks.null_sink(gr.sizeof_char*1)
         self.blocks_nlog10_ff_0 = blocks.nlog10_ff(1, N_snr, 0)
-        self.b_demod_constelacion_cb_0 = b_demod_constelacion_cb(
-            Constelacion=const0,
-        )
         self.analog_random_source_x_1 = blocks.vector_source_b(list(map(int, numpy.random.randint(0, M0, 10000000))), True)
 
 
@@ -175,14 +171,14 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         ##################################################
         self.connect((self.analog_random_source_x_1, 0), (self.blocks_stream_to_vector_0_1, 0))
         self.connect((self.analog_random_source_x_1, 0), (self.digital_chunks_to_symbols_xx_1, 0))
-        self.connect((self.b_demod_constelacion_cb_0, 0), (self.blocks_null_sink_0, 0))
-        self.connect((self.b_demod_constelacion_cb_0, 0), (self.blocks_stream_to_vector_0_1_0, 0))
         self.connect((self.blocks_nlog10_ff_0, 0), (self.qtgui_vector_sink_f_0, 0))
         self.connect((self.blocks_stream_to_vector_0, 0), (self.epy_block_0, 0))
         self.connect((self.blocks_stream_to_vector_0_1, 0), (self.epy_block_1, 0))
         self.connect((self.blocks_stream_to_vector_0_1_0, 0), (self.epy_block_1, 1))
-        self.connect((self.blocks_vector_to_stream_0, 0), (self.b_demod_constelacion_cb_0, 0))
+        self.connect((self.blocks_vector_to_stream_0, 0), (self.digital_constellation_decoder_cb_0_0_0, 0))
         self.connect((self.digital_chunks_to_symbols_xx_1, 0), (self.blocks_stream_to_vector_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0_0, 0), (self.blocks_null_sink_0, 0))
+        self.connect((self.digital_constellation_decoder_cb_0_0_0, 0), (self.blocks_stream_to_vector_0_1_0, 0))
         self.connect((self.epy_block_0, 0), (self.blocks_vector_to_stream_0, 0))
         self.connect((self.epy_block_1, 0), (self.blocks_nlog10_ff_0, 0))
 
@@ -201,8 +197,14 @@ class ser_simulation(gr.top_block, Qt.QWidget):
     def set_const0(self, const0):
         self.const0 = const0
         self.set_M0(len(self.const0))
-        self.b_demod_constelacion_cb_0.set_Constelacion(self.const0)
         self.digital_chunks_to_symbols_xx_1.set_symbol_table(self.const0)
+
+    def get_M0(self):
+        return self.M0
+
+    def set_M0(self, M0):
+        self.M0 = M0
+        self.set_mapa(np.arange(self.M0))
 
     def get_samp_rate(self):
         return self.samp_rate
@@ -211,19 +213,18 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         self.samp_rate = samp_rate
         self.set_Rs(self.samp_rate/self.Sps)
 
+    def get_mapa(self):
+        return self.mapa
+
+    def set_mapa(self, mapa):
+        self.mapa = mapa
+
     def get_Sps(self):
         return self.Sps
 
     def set_Sps(self, Sps):
         self.Sps = Sps
         self.set_Rs(self.samp_rate/self.Sps)
-
-    def get_M0(self):
-        return self.M0
-
-    def set_M0(self, M0):
-        self.M0 = M0
-        self.set_mapa(np.arange(self.M0))
 
     def get_run_stop(self):
         return self.run_stop
@@ -233,12 +234,6 @@ class ser_simulation(gr.top_block, Qt.QWidget):
         if self.run_stop: self.start()
         else: self.stop(); self.wait()
         self._run_stop_callback(self.run_stop)
-
-    def get_mapa(self):
-        return self.mapa
-
-    def set_mapa(self, mapa):
-        self.mapa = mapa
 
     def get_Rs(self):
         return self.Rs
@@ -252,6 +247,12 @@ class ser_simulation(gr.top_block, Qt.QWidget):
     def set_N_snr(self, N_snr):
         self.N_snr = N_snr
         self.qtgui_vector_sink_f_0.set_x_axis(self.EsN0min, (self.EsN0max-self.EsN0min)/float(self.N_snr))
+
+    def get_MiconstellationObject0(self):
+        return self.MiconstellationObject0
+
+    def set_MiconstellationObject0(self, MiconstellationObject0):
+        self.MiconstellationObject0 = MiconstellationObject0
 
     def get_MaxErrors(self):
         return self.MaxErrors

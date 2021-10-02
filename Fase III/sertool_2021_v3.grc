@@ -93,6 +93,25 @@ blocks:
     coordinate: [794, 374]
     rotation: 0
     state: enabled
+- name: MiconstellationObject0
+  id: variable_constellation
+  parameters:
+    comment: ''
+    const_points: const0
+    dims: '1'
+    normalization: digital.constellation.AMPLITUDE_NORMALIZATION
+    precision: '8'
+    rot_sym: '4'
+    soft_dec_lut: None
+    sym_map: mapa
+    type: calcdist
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [184, 4]
+    rotation: 0
+    state: enabled
 - name: N_snr
   id: variable
   parameters:
@@ -126,7 +145,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [334, 2]
+    coordinate: [520, 68]
     rotation: 0
     state: enabled
 - name: const0
@@ -179,7 +198,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [238, 2]
+    coordinate: [424, 68]
     rotation: 0
     state: enabled
 - name: analog_random_source_x_1
@@ -202,22 +221,6 @@ blocks:
     coordinate: [-11, 136]
     rotation: 0
     state: enabled
-- name: b_demod_constelacion_cb_0
-  id: b_demod_constelacion_cb
-  parameters:
-    Constelacion: const0
-    affinity: ''
-    alias: ''
-    comment: ''
-    maxoutbuf: '0'
-    minoutbuf: '0'
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [283, 424]
-    rotation: 180
-    state: true
 - name: blocks_nlog10_ff_0
   id: blocks_nlog10_ff
   parameters:
@@ -345,6 +348,22 @@ blocks:
     coordinate: [315, 165]
     rotation: 0
     state: enabled
+- name: digital_constellation_decoder_cb_0_0_0
+  id: digital_constellation_decoder_cb
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    constellation: MiconstellationObject0
+    maxoutbuf: '0'
+    minoutbuf: '0'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [280, 423]
+    rotation: 180
+    state: enabled
 - name: epy_block_0
   id: epy_block
   parameters:
@@ -450,19 +469,19 @@ blocks:
       \ un ensayo\n        # count: cuenta los ensayos procesados\n        # errores:\
       \ vector de N valores para contar errores en\n        # cada punto de la SER\
       \ a medida que ocurren nuevos ensayos.\n        \n        self.N=N\n       \
-      \ self.errores = np.float64(np.zeros(self.N)) \n        self.count=1 \n    \
-      \    \n    def work(self, input_items, output_items):\n        # in0  y in1:\
+      \ self.errors_N = np.zeros(self.N) \n        self.count_trials=int(1) \n   \
+      \     \n    def work(self, input_items, output_items):\n        # in0  y in1:\
       \ son matrices de LxN\n        # L: numero de vectores  de N elementos de matrix\
       \ LxN\n        # osea, vamos a procesar a la vez L curvas de SER y cada una\
-      \ tiene N puntos\n        # count_vec: es para tener un contador para a cada\
-      \ curva de SER en la matrix\n        # le corresponda el contador apropiado.\
-      \ count_vect es una matrix de Lx1\n                        \n        in0=input_items[0]\n\
-      \        in1=input_items[1]\n        L=len(in0) \n        count_vec=np.arange(self.count,self.count+L)\n\
-      \        count_matrix=np.transpose(np.array([count_vec]*self.N))\n        errores_matrix\
-      \ = self.errores+(in0!=in1).astype(int)\n        SER = errores_matrix/count_matrix\
-      \ # aqui se presenta error a dividir una matrix por un vector\n        self.count\
-      \ +=L \n        self.errores=errores_matrix[L-1] \n        output_items[0][:]=SER\n\
-      \        return len(output_items[0])\n"
+      \ tiene N puntos\n                                \n        in0=input_items[0]\n\
+      \        in1=input_items[1]\n        out=output_items[0]\n        L=len(in0)\
+      \ \n        self.count_trials +=L # ajusta la cantidad de curvas ya procesadas\n\
+      \        \n        errores_LxN = (in0!=in1).astype(int) # deteccion de errores\
+      \ en toda la matrix LxN\n        self.errors_N += np.sum(errores_LxN, axis=0)\
+      \ # vector acumula suma de columnas de matrix\n        SER = self.errors_N/self.count_trials\
+      \ # obtengo la SER como un vector\n        \n        out[:]=SER # lleno la matrix\
+      \ out con el vector SER, entonces una SER\n                   # sale L veces\
+      \ pero el ojo humano no lo notar\xE1\n        return len(output_items[0])\n"
     affinity: ''
     alias: ''
     comment: ''
@@ -533,7 +552,7 @@ blocks:
     comment: ''
     grid: 'False'
     gui_hint: 2,0,1,1
-    label1: '"QPSK"'
+    label1: '"BPSK"'
     label10: ''
     label2: '"QPSK"'
     label3: 8PSK
@@ -632,14 +651,14 @@ blocks:
 connections:
 - [analog_random_source_x_1, '0', digital_chunks_to_symbols_xx_1, '0']
 - [analog_random_source_x_1, '0', vs0_1, '0']
-- [b_demod_constelacion_cb_0, '0', blocks_null_sink_0, '0']
-- [b_demod_constelacion_cb_0, '0', vs1_0_0, '0']
 - [blocks_nlog10_ff_0, '0', qtgui_vector_sink_f_0, '0']
 - [blocks_stream_to_vector_0, '0', epy_block_0, '0']
 - [blocks_stream_to_vector_0_1, '0', epy_block_1, '0']
 - [blocks_stream_to_vector_0_1_0, '0', epy_block_1, '1']
-- [blocks_vector_to_stream_0, '0', b_demod_constelacion_cb_0, '0']
+- [blocks_vector_to_stream_0, '0', digital_constellation_decoder_cb_0_0_0, '0']
 - [digital_chunks_to_symbols_xx_1, '0', blocks_stream_to_vector_0, '0']
+- [digital_constellation_decoder_cb_0_0_0, '0', blocks_null_sink_0, '0']
+- [digital_constellation_decoder_cb_0_0_0, '0', vs1_0_0, '0']
 - [epy_block_0, '0', blocks_vector_to_stream_0, '0']
 - [epy_block_1, '0', blocks_nlog10_ff_0, '0']
 - [virtual_source_0, '0', blocks_stream_to_vector_0_1, '0']
