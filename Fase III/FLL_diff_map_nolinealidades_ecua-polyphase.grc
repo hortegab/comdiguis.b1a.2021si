@@ -43,7 +43,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1410, 7]
+    coordinate: [1482, 8]
     rotation: 0
     state: enabled
 - name: Dtiming
@@ -64,7 +64,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1477, 925]
+    coordinate: [1483, 1071]
     rotation: 0
     state: enabled
 - name: Eq_taps
@@ -77,7 +77,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1413, 73]
+    coordinate: [1295, 0]
     rotation: 0
     state: enabled
 - name: Jitter
@@ -98,7 +98,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1180, 1302]
+    coordinate: [1182, 1469]
     rotation: 0
     state: enabled
 - name: M
@@ -131,7 +131,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1174, 784]
+    coordinate: [1176, 951]
     rotation: 0
     state: true
 - name: Retardo_sym
@@ -146,13 +146,13 @@ blocks:
     start: '0'
     step: '1'
     stop: Sps*10
-    value: '2'
+    value: '10'
     widget: counter_slider
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1478, 801]
+    coordinate: [1484, 947]
     rotation: 0
     state: enabled
 - name: Rs
@@ -178,6 +178,18 @@ blocks:
     bus_structure: null
     coordinate: [1122, 7]
     rotation: 0
+    state: disabled
+- name: Sps
+  id: variable
+  parameters:
+    comment: ''
+    value: '8'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [869, 338]
+    rotation: 0
     state: enabled
 - name: a_d
   id: variable_qtgui_range
@@ -197,9 +209,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1179, 1173]
+    coordinate: [1181, 1340]
     rotation: 0
     state: true
+- name: alpha
+  id: variable
+  parameters:
+    comment: ''
+    value: '0.3'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [862, 398]
+    rotation: 0
+    state: enabled
 - name: constel
   id: variable
   parameters:
@@ -230,7 +254,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1828, 715]
+    coordinate: [1834, 861]
     rotation: 0
     state: enabled
 - name: e_tap1
@@ -251,7 +275,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1829, 842]
+    coordinate: [1835, 988]
     rotation: 0
     state: enabled
 - name: e_tap2
@@ -272,7 +296,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1832, 967]
+    coordinate: [1838, 1113]
     rotation: 0
     state: enabled
 - name: e_tap3
@@ -293,7 +317,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1827, 1091]
+    coordinate: [1833, 1237]
     rotation: 0
     state: enabled
 - name: e_tap4
@@ -314,7 +338,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1650, 706]
+    coordinate: [1656, 852]
     rotation: 0
     state: enabled
 - name: e_tap5
@@ -335,7 +359,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1652, 833]
+    coordinate: [1658, 979]
     rotation: 0
     state: enabled
 - name: e_tap6
@@ -356,7 +380,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1652, 959]
+    coordinate: [1658, 1105]
     rotation: 0
     state: enabled
 - name: e_tap7
@@ -377,7 +401,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1653, 1086]
+    coordinate: [1659, 1232]
     rotation: 0
     state: enabled
 - name: eq_gain
@@ -410,9 +434,21 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1178, 1045]
+    coordinate: [1180, 1212]
     rotation: 0
     state: true
+- name: h
+  id: variable
+  parameters:
+    comment: ''
+    value: micodigo.rrcos(Sps,ntaps,alpha)
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [864, 460]
+    rotation: 0
+    state: enabled
 - name: mapdirect
   id: variable
   parameters:
@@ -437,6 +473,30 @@ blocks:
     coordinate: [397, 9]
     rotation: 0
     state: enabled
+- name: nfilts
+  id: variable
+  parameters:
+    comment: ''
+    value: '32'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [949, 399]
+    rotation: 0
+    state: enabled
+- name: ntaps
+  id: variable
+  parameters:
+    comment: ''
+    value: '64'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [938, 339]
+    rotation: 0
+    state: enabled
 - name: phase_d
   id: variable_qtgui_range
   parameters:
@@ -455,7 +515,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1177, 915]
+    coordinate: [1179, 1082]
     rotation: 0
     state: true
 - name: run_stop
@@ -484,7 +544,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1297, 24]
+    coordinate: [1058, 7]
     rotation: 0
     state: enabled
 - name: tap0
@@ -505,7 +565,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1039, 787]
+    coordinate: [1041, 954]
     rotation: 0
     state: enabled
 - name: tap1
@@ -526,7 +586,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1040, 914]
+    coordinate: [1042, 1081]
     rotation: 0
     state: enabled
 - name: tap2
@@ -547,7 +607,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1043, 1039]
+    coordinate: [1045, 1206]
     rotation: 0
     state: enabled
 - name: tap3
@@ -568,7 +628,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1043, 1163]
+    coordinate: [1045, 1330]
     rotation: 0
     state: enabled
 - name: tap4
@@ -589,7 +649,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [861, 778]
+    coordinate: [863, 945]
     rotation: 0
     state: enabled
 - name: tap5
@@ -610,7 +670,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [863, 905]
+    coordinate: [865, 1072]
     rotation: 0
     state: enabled
 - name: tap6
@@ -631,7 +691,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [863, 1031]
+    coordinate: [865, 1198]
     rotation: 0
     state: enabled
 - name: tap7
@@ -652,7 +712,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [864, 1158]
+    coordinate: [866, 1325]
     rotation: 0
     state: enabled
 - name: ChBeh
@@ -686,7 +746,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1176, 695]
+    coordinate: [1178, 862]
     rotation: 0
     state: true
 - name: ManSol
@@ -720,7 +780,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1479, 705]
+    coordinate: [1485, 851]
     rotation: 0
     state: true
 - name: analog_const_source_x_0
@@ -737,7 +797,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1116, 465]
+    coordinate: [1391, 479]
     rotation: 0
     state: enabled
 - name: analog_noise_source_x_0
@@ -756,7 +816,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1117, 258]
+    coordinate: [1392, 272]
     rotation: 0
     state: true
 - name: analog_random_source_x_1
@@ -798,23 +858,25 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1115, 333]
+    coordinate: [1390, 347]
     rotation: 0
     state: enabled
-- name: b_Manual_Equalizer_cc_0
-  id: b_Manual_Equalizer_cc
+- name: b_LMS_Equalizer2_cc_0
+  id: b_LMS_Equalizer2_cc
   parameters:
+    Constelacion: constel
+    Sps: '1'
     affinity: ''
     alias: ''
     comment: ''
     maxoutbuf: '0'
     minoutbuf: '0'
-    taps: '[e_tap0,e_tap1,e_tap2,e_tap3,e_tap4,e_tap5,e_tap6,e_tap7]'
+    ntaps: '11'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [763, 576]
+    coordinate: [764, 557]
     rotation: 180
     state: true
 - name: b_demod_constelacion_cb_0
@@ -848,7 +910,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1362, 171]
+    coordinate: [1637, 185]
     rotation: 0
     state: true
 - name: blocks_char_to_float_0_0_0
@@ -904,6 +966,25 @@ blocks:
     coordinate: [425, 818]
     rotation: 0
     state: true
+- name: blocks_delay_1
+  id: blocks_delay
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    delay: Jitter
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    num_ports: '1'
+    type: complex
+    vlen: '1'
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [1192, 169]
+    rotation: 0
+    state: true
 - name: blocks_multiply_const_vxx_0
   id: blocks_multiply_const_vxx
   parameters:
@@ -919,7 +1000,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [975, 168]
+    coordinate: [1270, 180]
     rotation: 0
     state: true
 - name: blocks_multiply_const_vxx_0_0
@@ -955,7 +1036,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1379, 475]
+    coordinate: [1654, 489]
     rotation: 270
     state: enabled
 - name: blocks_null_sink_0
@@ -993,7 +1074,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1125, 126]
+    coordinate: [1400, 140]
     rotation: 0
     state: enabled
 - name: coding
@@ -1063,7 +1144,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [869, 697]
+    coordinate: [871, 864]
     rotation: 0
     state: true
 - name: digital_chunks_to_symbols_xx_1
@@ -1150,6 +1231,29 @@ blocks:
     coordinate: [311, 571]
     rotation: 180
     state: enabled
+- name: digital_pfb_clock_sync_xxx_0
+  id: digital_pfb_clock_sync_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    filter_size: nfilts
+    init_phase: nfilts/2
+    loop_bw: 2*math.pi/100.0
+    max_dev: '1.5'
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    osps: '1'
+    sps: Sps
+    taps: firdes.root_raised_cosine(nfilts, nfilts, 1.0/float(Sps), alpha, ntaps*nfilts)
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [998, 571]
+    rotation: 180
+    state: enabled
 - name: import
   id: import
   parameters:
@@ -1189,6 +1293,60 @@ blocks:
     coordinate: [1855, 8]
     rotation: 0
     state: enabled
+- name: interp_fir_filter_xxx_0
+  id: interp_fir_filter_xxx
+  parameters:
+    affinity: ''
+    alias: ''
+    comment: ''
+    interp: Sps
+    maxoutbuf: '0'
+    minoutbuf: '0'
+    samp_delay: '0'
+    taps: h
+    type: ccf
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [991, 157]
+    rotation: 0
+    state: true
+- name: micodigo
+  id: epy_module
+  parameters:
+    alias: ''
+    comment: ''
+    source_code: "# this module will be imported in the into your flowgraph\nimport\
+      \ numpy as np\nimport math\n\ndef filtroNyquist(Sps,ntaps):\n    k=np.linspace(-ntaps/2,ntaps/2-1,ntaps)\n\
+      \    h=np.sinc(k/Sps)\n    return h\n\n#######################################################\n\
+      ##               Forma Coseno Alzado                 ##\n#######################################################\
+      \                       \ndef rcos(Sps,ntaps,beta):\n    if beta==0:\n     \
+      \   h=filtroNyquist(Sps,ntaps)\n    else:\n        h=ntaps*[0,]\n        for\
+      \ n in range(ntaps):\n            k=n-ntaps/2. # esto es para que h[n] quede\
+      \ centrada en la mitad del vector\n            if abs(k)==Sps/(2.*beta):\n \
+      \               h[n]=np.sinc(1./(2.*beta))*math.pi/4.\n            else:\n \
+      \               h[n]=np.sinc(k/Sps)*math.cos(beta*k*math.pi/Sps)/(1.-(2.*beta*k/Sps)**2)\
+      \                \n    Amp=np.amax(h)\n    return h/Amp\n    \n    \n #######################################################\n\
+      ##            Forma Raiz de Coseno Alzado            ##\n#######################################################\
+      \                       \n\ndef rrcos(Sps,ntaps,beta):\n    if beta==0:\n  \
+      \      h=filtroNyquist(Sps,ntaps)\n    else:\n        h=ntaps*[0,]\n       \
+      \ beta4=4.*beta\n        for n in range(ntaps):\n            k=n-ntaps/2. #\
+      \ esto es para que h[n] quede centrada en la mitad del vector\n            if\
+      \ k==0:\n                h[n]=1+beta*(4./math.pi-1.)\n            elif abs(k)==Sps/beta4:\n\
+      \                ha=(1.+2./math.pi)*math.sin(math.pi/beta4)\n              \
+      \  hb=(1.-2./math.pi)*math.cos(math.pi/beta4)\n                h[n]=(ha+hb)*beta/math.sqrt(2.)\n\
+      \            else:\n                ks=k/Sps\n                kspi=math.pi*ks\n\
+      \                Num=math.sin(kspi*(1-beta))+beta4*ks*math.cos(kspi*(1+beta))\n\
+      \                Den=kspi*(1.-(beta4*ks)**2)\n                h[n]=Num/Den \
+      \               \n    Amp=np.amax(h)\n    return h/Amp\n\n"
+  states:
+    bus_sink: false
+    bus_source: false
+    bus_structure: null
+    coordinate: [880, 295]
+    rotation: 0
+    state: true
 - name: note_0
   id: note
   parameters:
@@ -1199,7 +1357,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1062, 643]
+    coordinate: [1402, 531]
     rotation: 0
     state: true
 - name: note_0_0
@@ -1212,7 +1370,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1591, 644]
+    coordinate: [1593, 801]
     rotation: 0
     state: true
 - name: note_0_0_1_0_0
@@ -1251,7 +1409,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1307, 322]
+    coordinate: [1582, 336]
     rotation: 0
     state: enabled
 - name: note_0_0_1_0_0_1_0
@@ -1286,7 +1444,7 @@ blocks:
     axislabels: 'True'
     color1: '"blue"'
     color10: '"red"'
-    color2: '"red"'
+    color2: '"green"'
     color3: '"green"'
     color4: '"red"'
     color5: '"red"'
@@ -1299,7 +1457,7 @@ blocks:
     gui_hint: 7,0,1,1
     label1: Entrada del Canal
     label10: ''
-    label2: Salida del Canal
+    label2: Salida del Ecualizador
     label3: Salida del Ecualizador
     label4: ''
     label5: ''
@@ -1319,7 +1477,7 @@ blocks:
     marker8: '0'
     marker9: '0'
     name: '""'
-    nconnections: '3'
+    nconnections: '2'
     size: '1024'
     style1: '0'
     style10: '0'
@@ -1359,8 +1517,8 @@ blocks:
     coordinate: [335, 700]
     rotation: 0
     state: true
-- name: qtgui_freq_sink_x_0_1
-  id: qtgui_freq_sink_x
+- name: qtgui_eye_sink_x_0
+  id: qtgui_eye_sink_x
   parameters:
     affinity: ''
     alias: ''
@@ -1375,52 +1533,66 @@ blocks:
     alpha8: '1.0'
     alpha9: '1.0'
     autoscale: 'False'
-    average: '0.05'
     axislabels: 'True'
-    bw: Rs
-    color1: '"blue"'
-    color10: '"dark blue"'
-    color2: '"red"'
-    color3: '"green"'
-    color4: '"black"'
-    color5: '"cyan"'
-    color6: '"magenta"'
-    color7: '"yellow"'
-    color8: '"dark red"'
-    color9: '"dark green"'
+    color1: blue
+    color10: blue
+    color2: blue
+    color3: blue
+    color4: blue
+    color5: blue
+    color6: blue
+    color7: blue
+    color8: blue
+    color9: blue
     comment: ''
     ctrlpanel: 'False'
-    fc: '0'
-    fftsize: '1024'
-    freqhalf: 'True'
+    entags: 'True'
     grid: 'False'
     gui_hint: 1,1,1,2
-    label: Relative Gain
-    label1: Entrada del Canal
-    label10: ''
-    label2: Salida del canal
-    label3: Salida del Ecualizador
-    label4: ''
-    label5: ''
-    label6: ''
-    label7: ''
-    label8: ''
-    label9: ''
+    label1: Signal 1
+    label10: Signal 10
+    label2: Signal 2
+    label3: Signal 3
+    label4: Signal 4
+    label5: Signal 5
+    label6: Signal 6
+    label7: Signal 7
+    label8: Signal 8
+    label9: Signal 9
     legend: 'True'
-    maxoutbuf: '0'
-    minoutbuf: '0'
-    name: ''
-    nconnections: '3'
-    norm_window: 'False'
-    showports: 'True'
+    marker1: '-1'
+    marker10: '-1'
+    marker2: '-1'
+    marker3: '-1'
+    marker4: '-1'
+    marker5: '-1'
+    marker6: '-1'
+    marker7: '-1'
+    marker8: '-1'
+    marker9: '-1'
+    nconnections: '1'
+    samp_per_symbol: Sps
+    size: 1024*10
+    srate: samp_rate
+    style1: '1'
+    style10: '1'
+    style2: '1'
+    style3: '1'
+    style4: '1'
+    style5: '1'
+    style6: '1'
+    style7: '1'
+    style8: '1'
+    style9: '1'
     tr_chan: '0'
+    tr_delay: '0'
     tr_level: '0.0'
     tr_mode: qtgui.TRIG_MODE_FREE
+    tr_slope: qtgui.TRIG_SLOPE_POS
     tr_tag: '""'
     type: complex
-    units: dB
     update_time: '0.10'
-    width1: '2'
+    width1: '1'
     width10: '1'
     width2: '1'
     width3: '1'
@@ -1430,16 +1602,17 @@ blocks:
     width7: '1'
     width8: '1'
     width9: '1'
-    wintype: window.WIN_BLACKMAN_hARRIS
-    ymax: '10'
-    ymin: '-140'
+    ylabel: Amplitude
+    ymax: '1.5'
+    ymin: '-1.5'
+    yunit: '""'
   states:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [419, 1058]
+    coordinate: [547, 944]
     rotation: 0
-    state: enabled
+    state: true
 - name: qtgui_time_sink_x_1_0
   id: qtgui_time_sink_x
   parameters:
@@ -1563,19 +1736,6 @@ blocks:
     coordinate: [395, 362]
     rotation: 90
     state: enabled
-- name: virtual_source_0
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: R2
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [60, 682]
-    rotation: 0
-    state: true
 - name: virtual_source_0_0
   id: virtual_source
   parameters:
@@ -1589,20 +1749,7 @@ blocks:
     coordinate: [55, 750]
     rotation: 0
     state: true
-- name: virtual_source_0_1_1
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: T1
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [49, 1063]
-    rotation: 0
-    state: enabled
-- name: virtual_source_0_1_1_0
+- name: virtual_source_0_0_0
   id: virtual_source
   parameters:
     alias: ''
@@ -1612,9 +1759,9 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [46, 1117]
+    coordinate: [399, 963]
     rotation: 0
-    state: enabled
+    state: true
 - name: virtual_source_0_1_1_0_0
   id: virtual_source
   parameters:
@@ -1628,19 +1775,6 @@ blocks:
     coordinate: [60, 879]
     rotation: 0
     state: true
-- name: virtual_source_0_1_1_0_1
-  id: virtual_source
-  parameters:
-    alias: ''
-    comment: ''
-    stream_id: R1
-  states:
-    bus_sink: false
-    bus_source: false
-    bus_structure: null
-    coordinate: [43, 1170]
-    rotation: 0
-    state: enabled
 - name: virtual_source_0_1_1_1
   id: virtual_source
   parameters:
@@ -1716,7 +1850,7 @@ blocks:
     bus_sink: false
     bus_source: false
     bus_structure: null
-    coordinate: [1029, 431]
+    coordinate: [1304, 445]
     rotation: 90
     state: enabled
 - name: vs1_0_0
@@ -1739,18 +1873,19 @@ connections:
 - [analog_random_source_x_1, '0', digital_diff_encoder_bb_0, '0']
 - [analog_random_source_x_1, '0', vs0_1, '0']
 - [analog_sig_source_x_1, '0', blocks_multiply_xx_0, '1']
-- [b_Manual_Equalizer_cc_0, '0', b_demod_constelacion_cb_0, '0']
-- [b_Manual_Equalizer_cc_0, '0', vs0_1_0_0, '0']
+- [b_LMS_Equalizer2_cc_0, '0', b_demod_constelacion_cb_0, '0']
+- [b_LMS_Equalizer2_cc_0, '0', vs0_1_0_0, '0']
 - [b_demod_constelacion_cb_0, '0', digital_map_bb_0_0, '0']
 - [b_demod_constelacion_cb_0, '0', virtual_sink_0_0_0_2_0_0, '0']
 - [blocks_add_xx_0, '0', blocks_multiply_xx_0, '2']
 - [blocks_char_to_float_0_0_0, '0', qtgui_time_sink_x_1_0, '1']
 - [blocks_char_to_float_0_1, '0', blocks_delay_0, '0']
 - [blocks_delay_0, '0', qtgui_time_sink_x_1_0, '0']
+- [blocks_delay_1, '0', blocks_multiply_const_vxx_0, '0']
 - [blocks_multiply_const_vxx_0, '0', channels_channel_model_0, '0']
-- [blocks_multiply_const_vxx_0_0, '0', blocks_multiply_const_vxx_0, '0']
+- [blocks_multiply_const_vxx_0_0, '0', interp_fir_filter_xxx_0, '0']
 - [blocks_multiply_const_vxx_0_0, '0', vs0_1_0_0_0, '0']
-- [blocks_multiply_xx_0, '0', b_Manual_Equalizer_cc_0, '0']
+- [blocks_multiply_xx_0, '0', digital_pfb_clock_sync_xxx_0, '0']
 - [blocks_multiply_xx_0, '0', vs0_1_0_1, '0']
 - [channels_channel_model_0, '0', blocks_add_xx_0, '0']
 - [digital_chunks_to_symbols_xx_1, '0', blocks_multiply_const_vxx_0_0, '0']
@@ -1760,12 +1895,11 @@ connections:
 - [digital_map_bb_0, '0', digital_chunks_to_symbols_xx_1, '0']
 - [digital_map_bb_0, '0', virtual_sink_0_0_0_1_0, '0']
 - [digital_map_bb_0_0, '0', digital_diff_decoder_bb_0, '0']
-- [virtual_source_0, '0', qtgui_const_sink_x_0, '1']
-- [virtual_source_0_0, '0', qtgui_const_sink_x_0, '2']
-- [virtual_source_0_1_1, '0', qtgui_freq_sink_x_0_1, '0']
-- [virtual_source_0_1_1_0, '0', qtgui_freq_sink_x_0_1, '1']
+- [digital_pfb_clock_sync_xxx_0, '0', b_LMS_Equalizer2_cc_0, '0']
+- [interp_fir_filter_xxx_0, '0', blocks_delay_1, '0']
+- [virtual_source_0_0, '0', qtgui_const_sink_x_0, '1']
+- [virtual_source_0_0_0, '0', qtgui_eye_sink_x_0, '0']
 - [virtual_source_0_1_1_0_0, '0', blocks_char_to_float_0_0_0, '0']
-- [virtual_source_0_1_1_0_1, '0', qtgui_freq_sink_x_0_1, '2']
 - [virtual_source_0_1_1_1, '0', blocks_char_to_float_0_1, '0']
 - [virtual_source_0_2, '0', qtgui_const_sink_x_0, '0']
 
